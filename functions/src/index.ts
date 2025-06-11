@@ -18,6 +18,7 @@ initializeApp()
 const db = getFirestore('surveys')
 
 type SurveyData = {
+  uid: string
   country: string
   age: string
   job: string
@@ -41,9 +42,21 @@ export const submitSurvey = onRequest(
       throw new Error('Missing required fields')
     }
 
+    const collection = db.collection('survey_results')
+
+    const doc = await collection.where('uid', '==', data.uid).get()
+    if (doc) {
+      response.send({
+        success: false,
+        error: 'Survey already exists',
+      })
+      return
+    }
+
     // Save to Firestore
-    const docRef = await db.collection('survey_results').add({
+    const docRef = await collection.add({
       ...data,
+      id: data.uid,
       timestamp: new Date(),
     })
 

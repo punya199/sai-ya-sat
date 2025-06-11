@@ -29,7 +29,7 @@ export const submitSurvey = async (
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, uid: getUId() }),
     })
 
     const result = await response.json()
@@ -40,4 +40,14 @@ export const submitSurvey = async (
       error: 'Failed to submit survey',
     }
   }
+}
+
+const getUId = () => {
+  const uid = localStorage.getItem('uid')
+  if (!uid) {
+    const newUid = crypto.randomUUID()
+    localStorage.setItem('uid', newUid)
+    return newUid
+  }
+  return uid
 }
