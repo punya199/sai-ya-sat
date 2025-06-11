@@ -5,10 +5,12 @@ type SurveyData = {
   country: string
   age: string
   job: string
+  belief: string
+  action?: string
 }
 
 const surveyList = {
-  country: ['ประเทศไทย', 'ประเทศจีน', 'ประเทศญี่ปุ่น'],
+  country: ['ประเทศไทย'],
   age: [
     '10 - 20',
     '21 - 30',
@@ -30,6 +32,21 @@ const surveyList = {
     'ผู้เกษียณอายุ',
     'อื่นๆ',
   ],
+  belief: [
+    'วัด',
+    'คริสตจักร',
+    'พระพุธรูป',
+    'สถานที่ศักดิ์สิทธิ์',
+    'สิ่งศักดิ์สิทธิ์',
+    'พระ(นักบวช)',
+  ],
+  action: [
+    'ไหว้ อธิษฐาน ขอพร',
+    'บริจาคเงิน',
+    'เสี่ยงทายดวงชะตาและการพยากรณ์อนาคต',
+    'ไปถ่ายรูปแล้วกลับมาโพสต์ในโซเชียลมีเดีย',
+    'ขอหวย',
+  ],
 }
 
 const SurveyCard = () => {
@@ -38,17 +55,21 @@ const SurveyCard = () => {
     country: '',
     age: '',
     job: '',
+    belief: '',
+    action: '',
   })
 
   const handleSelect = (field: keyof SurveyData, value: string) => {
     setForm({ ...form, [field]: value })
     setStep(prev => prev + 1)
   }
-
+  const handleBack = () => {
+    setStep(prev => prev - 1)
+  }
   const handleSubmit = () => {
     alert('ส่งแบบสำรวจเรียบร้อยแล้ว!')
     // เพิ่ม logic เช่น ส่งไป backend ได้ที่นี่
-    setForm({ country: '', age: '', job: '' })
+    setForm({ country: '', age: '', job: '', belief: '', action: '' })
     setStep(0)
   }
 
@@ -62,7 +83,7 @@ const SurveyCard = () => {
               key={c}
               type="primary"
               size="large"
-              className="mb-2 w-full"
+              className="bg-pink-500 text-white hover:bg-pink-600 border-none w-full"
               onClick={() => handleSelect('country', c)}
             >
               {c}
@@ -77,7 +98,7 @@ const SurveyCard = () => {
           {surveyList.age.map(a => (
             <Button
               key={a}
-              type="default"
+              type="primary"
               size="large"
               className="mb-2 w-full"
               onClick={() => handleSelect('age', a)}
@@ -94,7 +115,7 @@ const SurveyCard = () => {
           {surveyList.job.map(j => (
             <Button
               key={j}
-              type="dashed"
+              type="primary"
               size="large"
               className="mb-2 w-full"
               onClick={() => handleSelect('job', j)}
@@ -107,22 +128,69 @@ const SurveyCard = () => {
     } else if (step === 3) {
       return (
         <>
+          <h2 className="text-xl font-semibold mb-4 text-center">คุณมีความเชื่อต่อสิ่งใด</h2>
+          {surveyList.belief.map(b => (
+            <Button
+              key={b}
+              type="primary"
+              size="large"
+              className="mb-2 w-full"
+              onClick={() => handleSelect('belief', b)}
+            >
+              {b}
+            </Button>
+          ))}
+        </>
+      )
+    } else if (step === 4) {
+      return (
+        <>
+          <h2 className="text-xl font-semibold mb-4 text-center">สิ่งแรกที่คุณจะทำ</h2>
+          {surveyList.action.map(b => (
+            <Button
+              key={b}
+              type="primary"
+              size="large"
+              className="mb-2 w-full"
+              onClick={() => handleSelect('action', b)}
+            >
+              {b}
+            </Button>
+          ))}
+        </>
+      )
+    } else if (step === 5) {
+      return (
+        <>
           <h2 className="text-xl font-semibold mb-4 text-center text-green-700">ตรวจสอบข้อมูล</h2>
           <ul className="mb-4 text-center">
             <li>ประเทศ: {form.country}</li>
             <li>อายุ: {form.age}</li>
             <li>อาชีพ: {form.job}</li>
+            <li>ความเชื่อ: {form.belief}</li>
+            <li>การกระทำ: {form.action}</li>
           </ul>
-          <Button type="primary" onClick={handleSubmit} className="w-full">
-            ส่งข้อมูล
-          </Button>
         </>
       )
     }
   }
 
   return (
-    <div className="bg-white shadow-lg rounded-xl p-6 max-w-md mx-auto mt-10">{renderStep()}</div>
+    <div className="bg-white shadow-lg rounded-xl p-6 max-w-md mx-auto mt-10">
+      {renderStep()}
+      <div className="flex justify-between mt-6 gap-2">
+        {step !== 0 && (
+          <Button color="primary" variant="outlined" onClick={() => handleBack()}>
+            Back
+          </Button>
+        )}
+        {step === 5 && (
+          <Button type="primary" onClick={handleSubmit} className="w-full">
+            ส่งข้อมูล
+          </Button>
+        )}
+      </div>
+    </div>
   )
 }
 

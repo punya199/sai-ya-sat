@@ -4,7 +4,7 @@ const PageSurvey = () => {
   // const navigate = useNavigate()
   return (
     <div>
-      <div className=" bg-blue-500 text-white p-10 text-center text-2xl font-bold h-12 flex items-center justify-center">
+      <div className=" bg-amber-200 text-amber-950 p-10 text-center text-2xl font-bold h-12 flex items-center justify-center">
         แบบสำรวจความเชื่อ
       </div>
       <SurveyCard></SurveyCard>
