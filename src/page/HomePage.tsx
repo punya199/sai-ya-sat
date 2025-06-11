@@ -1,4 +1,3 @@
-import React from 'react'
 import PageSurvey from './PageSurvey'
 
 const HomePage = () => {
