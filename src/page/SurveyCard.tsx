@@ -1,5 +1,6 @@
 import { Button } from 'antd'
 import { useState } from 'react'
+import { submitSurvey } from '../utils/firebaseFunctions'
 
 type SurveyData = {
   country: string
@@ -58,6 +59,7 @@ const SurveyCard = () => {
   }
   const handleSubmit = () => {
     alert('ส่งแบบสำรวจเรียบร้อยแล้ว!')
+    submitSurvey(form)
     // เพิ่ม logic เช่น ส่งไป backend ได้ที่นี่
     setForm({ country: '', age: '', job: '', belief: '', action: '' })
     setStep(0)
