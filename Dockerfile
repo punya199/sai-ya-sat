@@ -12,6 +12,7 @@ RUN echo "VITE_API_DOMAIN: $VITE_API_DOMAIN"
 
 ENV YARN_CACHE_FOLDER=/root/.yarn
 
+
 WORKDIR /usr/src/app
 
 RUN corepack enable \
@@ -27,6 +28,7 @@ COPY .yarn/ ./.yarn/
 RUN --mount=type=cache,target="$YARN_CACHE_FOLDER" YARN_CACHE_FOLDER="$YARN_CACHE_FOLDER" yarn install
 
 COPY . .
+RUN echo "VITE_API_DOMAIN=$VITE_API_DOMAIN" > .env
 
 RUN yarn build
 
