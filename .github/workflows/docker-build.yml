@@ -89,4 +89,4 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: VITE_APP_VERSION=${{ needs.release.outputs.new_release_version }}
+          build-args: VITE_API_DOMAIN=${{ env.VITE_API_DOMAIN }}
