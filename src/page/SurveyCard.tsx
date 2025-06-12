@@ -6,7 +6,7 @@ type SurveyData = {
   age: string
   job: string
   belief: string
-  action?: string
+  action: string
 }
 
 const surveyList = {
@@ -61,8 +61,30 @@ const SurveyCard = () => {
     // เพิ่ม logic เช่น ส่งไป backend ได้ที่นี่
     setForm({ country: '', age: '', job: '', belief: '', action: '' })
     setStep(0)
+    submitForm()
   }
+  const submitForm = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/submit-survey', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      })
 
+      if (!response.ok) {
+        throw new Error('Failed to submit form')
+      }
+
+      const data = await response.json()
+      console.log('Response from server:', data)
+      alert('ส่งข้อมูลเรียบร้อยแล้ว')
+    } catch (error) {
+      console.error(error)
+      alert('เกิดข้อผิดพลาดในการส่งข้อมูล')
+    }
+  }
   const renderStep = () => {
     if (step === 0) {
       return (
