@@ -63,9 +63,10 @@ const SurveyCard = () => {
     setStep(0)
     submitForm()
   }
+  console.log(import.meta.env)
   const submitForm = async () => {
     try {
-      const response = await fetch('http://localhost:3000/submit-survey', {
+      const response = await fetch(`${import.meta.env.VITE_API_DOMAIN}/survey/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
