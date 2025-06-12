@@ -4,11 +4,10 @@ const PageSurvey = () => {
   // const navigate = useNavigate()
   return (
     <div>
-      <div className=" bg-amber-200 text-amber-950 p-10 text-center text-2xl font-bold h-12 flex items-center justify-center">
+      <div className="bg-[#FDE6C3] text-[#913903] py-6 text-center text-3xl font-bold">
         แบบสำรวจความเชื่อ
       </div>
       <SurveyCard></SurveyCard>
-      {/* <Button block onClick={() => navigate('/')}>ย้อนกลับ</Button> */}
     </div>
   )
 }

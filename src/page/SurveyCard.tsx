@@ -1,6 +1,5 @@
 import { Button } from 'antd'
-import { useState } from 'react'
-import { submitSurvey } from '../utils/firebaseFunctions'
+import { useCallback, useState } from 'react'
 
 type SurveyData = {
   country: string
@@ -50,22 +49,28 @@ const SurveyCard = () => {
     action: '',
   })
 
-  const handleSelect = (field: keyof SurveyData, value: string) => {
-    setForm({ ...form, [field]: value })
-    setStep(prev => prev + 1)
-  }
-  const handleBack = () => {
+  const handleSelect = useCallback(
+    (field: keyof SurveyData, value: string) => {
+      setForm({ ...form, [field]: value })
+      setStep(prev => prev + 1)
+    },
+    [form]
+  )
+  const handleBack = useCallback(() => {
     setStep(prev => prev - 1)
-  }
+  }, [])
   const handleSubmit = () => {
     alert('ส่งแบบสำรวจเรียบร้อยแล้ว!')
-    submitSurvey(form)
     // เพิ่ม logic เช่น ส่งไป backend ได้ที่นี่
     setForm({ country: '', age: '', job: '', belief: '', action: '' })
-    setStep(0)
+    setStep(6)
     submitForm()
   }
-  console.log(import.meta.env)
+  const handleReset = useCallback(() => {
+    setForm({ country: '', age: '', job: '', belief: '', action: '' })
+    setStep(0)
+  }, [])
+
   const submitForm = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_DOMAIN}/survey/submit`, {
@@ -88,17 +93,17 @@ const SurveyCard = () => {
       alert('เกิดข้อผิดพลาดในการส่งข้อมูล')
     }
   }
-  const renderStep = () => {
+  const renderStep = useCallback(() => {
     if (step === 0) {
       return (
         <>
-          <h2 className="text-xl font-semibold mb-4 text-center">เลือกประเทศ</h2>
+          <h2 className="text-xl font-semibold mb-4 text-center ">เลือกประเทศ</h2>
           {surveyList.country.map(c => (
             <Button
               key={c}
               type="primary"
               size="large"
-              className="bg-pink-500 text-white hover:bg-pink-600 border-none w-full"
+              className=" mb-2 w-full text-base font-medium"
               onClick={() => handleSelect('country', c)}
             >
               {c}
@@ -115,7 +120,7 @@ const SurveyCard = () => {
               key={a}
               type="primary"
               size="large"
-              className="mb-2 w-full"
+              className="mb-2 w-full text-base font-medium"
               onClick={() => handleSelect('age', a)}
             >
               {a}
@@ -132,7 +137,7 @@ const SurveyCard = () => {
               key={j}
               type="primary"
               size="large"
-              className="mb-2 w-full"
+              className="mb-2 w-full text-base font-medium"
               onClick={() => handleSelect('job', j)}
             >
               {j}
@@ -149,7 +154,7 @@ const SurveyCard = () => {
               key={b}
               type="primary"
               size="large"
-              className="mb-2 w-full"
+              className="mb-2 w-full text-base font-medium"
               onClick={() => handleSelect('belief', b)}
             >
               {b}
@@ -166,7 +171,7 @@ const SurveyCard = () => {
               key={b}
               type="primary"
               size="large"
-              className="mb-2 w-full"
+              className="mb-2 w-full text-base font-medium"
               onClick={() => handleSelect('action', b)}
             >
               {b}
@@ -177,31 +182,76 @@ const SurveyCard = () => {
     } else if (step === 5) {
       return (
         <>
-          <h2 className="text-xl font-semibold mb-4 text-center text-green-700">ตรวจสอบข้อมูล</h2>
-          <ul className="mb-4 text-center">
-            <li>ประเทศ: {form.country}</li>
-            <li>อายุ: {form.age}</li>
-            <li>อาชีพ: {form.job}</li>
-            <li>ความเชื่อ: {form.belief}</li>
-            <li>การกระทำ: {form.action}</li>
+          <h2 className="text-2xl font-bold mb-6 text-center text-green-700">
+            ตรวจสอบข้อมูลของคุณ
+          </h2>
+
+          <ul className="space-y-4">
+            <li className="flex justify-between bg-gray-50 p-3 rounded-md shadow-sm">
+              <span className="font-semibold text-gray-700">ประเทศ </span>
+              <span className="text-gray-900">{form.country}</span>
+            </li>
+            <li className="flex justify-between bg-gray-50 p-3 rounded-md shadow-sm">
+              <span className="font-semibold text-gray-700">อายุ </span>
+              <span className="text-gray-900">{form.age}</span>
+            </li>
+            <li className="flex justify-between bg-gray-50 p-3 rounded-md shadow-sm">
+              <span className="font-semibold text-gray-700">อาชีพ </span>
+              <span className="text-gray-900">{form.job}</span>
+            </li>
+            <li className="flex justify-between bg-gray-50 p-3 rounded-md shadow-sm">
+              <span className="font-semibold text-gray-700">ความเชื่อ </span>
+              <span className="text-gray-900">{form.belief}</span>
+            </li>
+            <li className="flex justify-between bg-gray-50 p-3 rounded-md shadow-sm">
+              <span className="font-semibold text-gray-700">การกระทำ</span>
+              <span className="text-gray-900">{form.action}</span>
+            </li>
           </ul>
         </>
       )
+    } else if (step === 6) {
+      return (
+        <>
+          <h2 className="text-xl font-semibold mb-4 text-center text-green-700">
+            ขอบคุณที่ร่วมทำแบบสำรวจ!
+          </h2>
+          <p className="text-center">ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว</p>
+        </>
+      )
     }
-  }
+  }, [form.action, form.age, form.belief, form.country, form.job, handleSelect, step])
 
   return (
-    <div className="bg-white shadow-lg rounded-xl p-6 max-w-md mx-auto mt-10">
+    <div className="bg-white border border-orange-200 shadow-md rounded-2xl p-6 max-w-md mx-auto mt-10 transition-all">
       {renderStep()}
       <div className="flex justify-between mt-6 gap-2">
-        {step !== 0 && (
-          <Button color="primary" variant="outlined" onClick={() => handleBack()}>
-            Back
+        {step !== 0 && step !== 6 && (
+          <Button
+            color="primary"
+            className="w-full"
+            variant="outlined"
+            onClick={() => handleBack()}
+          >
+            กลับ
           </Button>
         )}
         {step === 5 && (
-          <Button type="primary" onClick={handleSubmit} className="w-full">
+          <Button
+            type="primary"
+            onClick={handleSubmit}
+            className="w-full bg-[#C96221] hover:bg-[#a44d18]"
+          >
             ส่งข้อมูล
+          </Button>
+        )}
+        {step === 6 && (
+          <Button
+            type="primary"
+            onClick={handleReset}
+            className="w-full bg-[#C96221] hover:bg-[#a44d18]"
+          >
+            ทำแบบสำรวจใหม่
           </Button>
         )}
       </div>

@@ -26,6 +26,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         token: {
           colorPrimary: '#C96221',
           borderRadius: 8,
+          fontSize: 16,
+          fontFamily: `'Noto Sans Thai', sans-serif`,
         },
       }}
     >
