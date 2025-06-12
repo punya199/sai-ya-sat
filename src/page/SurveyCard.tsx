@@ -60,8 +60,6 @@ const SurveyCard = () => {
     setStep(prev => prev - 1)
   }, [])
   const handleSubmit = () => {
-    alert('ส่งแบบสำรวจเรียบร้อยแล้ว!')
-    // เพิ่ม logic เช่น ส่งไป backend ได้ที่นี่
     setForm({ country: '', age: '', job: '', belief: '', action: '' })
     setStep(6)
     submitForm()
@@ -87,10 +85,8 @@ const SurveyCard = () => {
 
       const data = await response.json()
       console.log('Response from server:', data)
-      alert('ส่งข้อมูลเรียบร้อยแล้ว')
     } catch (error) {
       console.error(error)
-      alert('เกิดข้อผิดพลาดในการส่งข้อมูล')
     }
   }
   const renderStep = useCallback(() => {
@@ -102,8 +98,7 @@ const SurveyCard = () => {
             <Button
               key={c}
               type="primary"
-              size="large"
-              className=" mb-2 w-full text-base font-medium"
+              className=" mb-2 w-full  "
               onClick={() => handleSelect('country', c)}
             >
               {c}
@@ -119,8 +114,7 @@ const SurveyCard = () => {
             <Button
               key={a}
               type="primary"
-              size="large"
-              className="mb-2 w-full text-base font-medium"
+              className="mb-2 w-full "
               onClick={() => handleSelect('age', a)}
             >
               {a}
@@ -136,8 +130,7 @@ const SurveyCard = () => {
             <Button
               key={j}
               type="primary"
-              size="large"
-              className="mb-2 w-full text-base font-medium"
+              className="mb-2 w-full "
               onClick={() => handleSelect('job', j)}
             >
               {j}
@@ -153,8 +146,7 @@ const SurveyCard = () => {
             <Button
               key={b}
               type="primary"
-              size="large"
-              className="mb-2 w-full text-base font-medium"
+              className="mb-2 w-full "
               onClick={() => handleSelect('belief', b)}
             >
               {b}
@@ -170,8 +162,7 @@ const SurveyCard = () => {
             <Button
               key={b}
               type="primary"
-              size="large"
-              className="mb-2 w-full text-base font-medium"
+              className="mb-2 w-full  "
               onClick={() => handleSelect('action', b)}
             >
               {b}
@@ -187,25 +178,25 @@ const SurveyCard = () => {
           </h2>
 
           <ul className="space-y-4">
-            <li className="flex justify-between bg-gray-50 p-3 rounded-md shadow-sm">
+            <li className="flex justify-between gap-2 bg-gray-50 p-3 rounded-md shadow-sm">
               <span className="font-semibold text-gray-700">ประเทศ </span>
-              <span className="text-gray-900">{form.country}</span>
+              <span className="text-gray-900 text-right">{form.country}</span>
             </li>
-            <li className="flex justify-between bg-gray-50 p-3 rounded-md shadow-sm">
+            <li className="flex justify-between gap-2 bg-gray-50 p-3 rounded-md shadow-sm">
               <span className="font-semibold text-gray-700">อายุ </span>
-              <span className="text-gray-900">{form.age}</span>
+              <span className="text-gray-900 text-right">{form.age}</span>
             </li>
-            <li className="flex justify-between bg-gray-50 p-3 rounded-md shadow-sm">
+            <li className="flex justify-between gap-2 bg-gray-50 p-3 rounded-md shadow-sm">
               <span className="font-semibold text-gray-700">อาชีพ </span>
-              <span className="text-gray-900">{form.job}</span>
+              <span className="text-gray-900 text-right">{form.job}</span>
             </li>
-            <li className="flex justify-between bg-gray-50 p-3 rounded-md shadow-sm">
+            <li className="flex justify-between gap-2 bg-gray-50 p-3 rounded-md shadow-sm">
               <span className="font-semibold text-gray-700">ความเชื่อ </span>
-              <span className="text-gray-900">{form.belief}</span>
+              <span className="text-gray-900 text-right">{form.belief}</span>
             </li>
-            <li className="flex justify-between bg-gray-50 p-3 rounded-md shadow-sm">
+            <li className="flex justify-between gap-2 bg-gray-50 p-3 rounded-md shadow-sm">
               <span className="font-semibold text-gray-700">การกระทำ</span>
-              <span className="text-gray-900">{form.action}</span>
+              <span className="text-gray-900 text-right">{form.action}</span>
             </li>
           </ul>
         </>
