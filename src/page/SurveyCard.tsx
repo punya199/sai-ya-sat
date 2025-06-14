@@ -1,5 +1,5 @@
-import { Button } from 'antd'
-import { useCallback, useState } from 'react'
+import { Button, type ButtonProps } from 'antd'
+import { useCallback, useState, type ReactNode } from 'react'
 
 type SurveyData = {
   country: string
@@ -8,6 +8,9 @@ type SurveyData = {
   belief: string
   action: string
 }
+type CustomButtonProps = {
+  children: ReactNode
+} & ButtonProps
 
 const surveyList = {
   country: ['ประเทศไทย'],
@@ -29,6 +32,7 @@ const surveyList = {
     'สถานที่ศักดิ์สิทธิ์',
     'สิ่งศักดิ์สิทธิ์',
     'พระ(นักบวช)',
+    'ไม่มีความเชื่อ',
   ],
   action: [
     'ไหว้ อธิษฐาน ขอพร',
@@ -89,91 +93,69 @@ const SurveyCard = () => {
       console.error(error)
     }
   }
+
+  const CustomButton = ({ children, ...props }: CustomButtonProps) => {
+    return (
+      <Button
+        {...props}
+        type="primary"
+        className=" mb-2 w-full !py-2 !text-wrap !h-auto"
+        style={{ fontSize: '20px' }}
+      >
+        {children}
+      </Button>
+    )
+  }
   const renderStep = useCallback(() => {
     if (step === 0) {
       return (
         <>
-          <h2 className="text-xl font-semibold mb-4 text-center ">เลือกประเทศ</h2>
+          <h2 className="text-3xl font-bold mb-4 text-center ">เลือกประเทศ</h2>
           {surveyList.country.map(c => (
-            <Button
-              key={c}
-              type="primary"
-              className=" mb-2 w-full  "
-              onClick={() => handleSelect('country', c)}
-            >
-              {c}
-            </Button>
+            <CustomButton onClick={() => handleSelect('country', c)}>{c}</CustomButton>
           ))}
         </>
       )
     } else if (step === 1) {
       return (
         <>
-          <h2 className="text-xl font-semibold mb-4 text-center">เลือกช่วงอายุ</h2>
+          <h2 className="text-3xl font-bold mb-4 text-center">เลือกช่วงอายุ</h2>
           {surveyList.age.map(a => (
-            <Button
-              key={a}
-              type="primary"
-              className="mb-2 w-full "
-              onClick={() => handleSelect('age', a)}
-            >
-              {a}
-            </Button>
+            <CustomButton onClick={() => handleSelect('age', a)}>{a}</CustomButton>
           ))}
         </>
       )
     } else if (step === 2) {
       return (
         <>
-          <h2 className="text-xl font-semibold mb-4 text-center">เลือกอาชีพ</h2>
+          <h2 className="text-3xl font-bold mb-4 text-center">เลือกอาชีพ</h2>
           {surveyList.job.map(j => (
-            <Button
-              key={j}
-              type="primary"
-              className="mb-2 w-full "
-              onClick={() => handleSelect('job', j)}
-            >
-              {j}
-            </Button>
+            <CustomButton onClick={() => handleSelect('job', j)}>{j}</CustomButton>
           ))}
         </>
       )
     } else if (step === 3) {
       return (
         <>
-          <h2 className="text-xl font-semibold mb-4 text-center">คุณมีความเชื่อต่อสิ่งใด</h2>
+          <h2 className="text-3xl font-bold mb-4 text-center">คุณมีความเชื่อต่อสิ่งใด</h2>
           {surveyList.belief.map(b => (
-            <Button
-              key={b}
-              type="primary"
-              className="mb-2 w-full "
-              onClick={() => handleSelect('belief', b)}
-            >
-              {b}
-            </Button>
+            <CustomButton onClick={() => handleSelect('belief', b)}>{b}</CustomButton>
           ))}
         </>
       )
     } else if (step === 4) {
       return (
         <>
-          <h2 className="text-xl font-semibold mb-4 text-center">สิ่งแรกที่คุณจะทำ</h2>
+          <h2 className="text-3xl font-bold mb-4 text-center">สิ่งแรกที่คุณจะทำ</h2>
           {surveyList.action.map(b => (
-            <Button
-              key={b}
-              type="primary"
-              className="mb-2 w-full  "
-              onClick={() => handleSelect('action', b)}
-            >
-              {b}
-            </Button>
+            <CustomButton onClick={() => handleSelect('action', b)}>{b}</CustomButton>
           ))}
         </>
       )
     } else if (step === 5) {
       return (
         <>
-          <h2 className="text-2xl font-bold mb-6 text-center text-green-700">
+          <h2 className="text-3xl font-bold mb-6 text-center text-green-700">
             ตรวจสอบข้อมูลของคุณ
           </h2>
 
@@ -204,23 +186,23 @@ const SurveyCard = () => {
     } else if (step === 6) {
       return (
         <>
-          <h2 className="text-xl font-semibold mb-4 text-center text-green-700">
+          <h2 className="text-2xl font-semibold mb-4 text-center text-green-700">
             ขอบคุณที่ร่วมทำแบบสำรวจ!
           </h2>
-          <p className="text-center">ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว</p>
+          <p className="text-center text-xl">ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว</p>
         </>
       )
     }
   }, [form.action, form.age, form.belief, form.country, form.job, handleSelect, step])
 
   return (
-    <div className="bg-white border border-orange-200 shadow-md rounded-2xl p-6 max-w-md mx-auto mt-10 transition-all">
+    <div className="bg-white border border-orange-200 shadow-md rounded-2xl p-6 max-w-md mx-auto mt-5 transition-all duration-300 hover:shadow-lg">
       {renderStep()}
       <div className="flex justify-between mt-6 gap-2">
         {step !== 0 && step !== 6 && (
           <Button
             color="primary"
-            className="w-full"
+            className="w-full !text-xl !py-1  !h-auto"
             variant="outlined"
             onClick={() => handleBack()}
           >
@@ -231,7 +213,7 @@ const SurveyCard = () => {
           <Button
             type="primary"
             onClick={handleSubmit}
-            className="w-full bg-[#C96221] hover:bg-[#a44d18]"
+            className=" bg-[#C96221] hover:bg-[#a44d18] !text-xl !py-1  !h-auto !w-3/1"
           >
             ส่งข้อมูล
           </Button>
@@ -240,7 +222,7 @@ const SurveyCard = () => {
           <Button
             type="primary"
             onClick={handleReset}
-            className="w-full bg-[#C96221] hover:bg-[#a44d18]"
+            className="w-full bg-[#C96221] hover:bg-[#a44d18] !text-xl !py-1  !h-auto"
           >
             ทำแบบสำรวจใหม่
           </Button>
