@@ -3,10 +3,11 @@ import { useCallback, useState, type ReactNode } from 'react'
 
 type SurveyData = {
   country: string
-  age: string
+  ageRanges: string
   job: string
   belief: string
   action: string
+  isAgrreed?: boolean
 }
 type CustomButtonProps = {
   children: ReactNode
@@ -38,16 +39,17 @@ const surveyList = {
     'ไหว้ อธิษฐาน ขอพร',
     'บริจาคเงิน',
     'เสี่ยงทายดวงชะตาและการพยากรณ์อนาคต',
-    'ไปถ่ายรูปแล้วกลับมาโพสต์ในโซเชียลมีเดีย',
+    'ถ่ายรูปแล้วกลับมาโพสต์ในโซเชียลมีเดีย',
     'ขอหวย',
   ],
+  isAgrreed: [],
 }
 
 const SurveyCard = () => {
   const [step, setStep] = useState(0)
   const [form, setForm] = useState<SurveyData>({
     country: '',
-    age: '',
+    ageRanges: '',
     job: '',
     belief: '',
     action: '',
@@ -64,12 +66,12 @@ const SurveyCard = () => {
     setStep(prev => prev - 1)
   }, [])
   const handleSubmit = () => {
-    setForm({ country: '', age: '', job: '', belief: '', action: '' })
-    setStep(6)
+    setForm({ country: '', ageRanges: '', job: '', belief: '', action: '', isAgrreed: true })
+    setStep(7)
     submitForm()
   }
   const handleReset = useCallback(() => {
-    setForm({ country: '', age: '', job: '', belief: '', action: '' })
+    setForm({ country: '', ageRanges: '', job: '', belief: '', action: '' })
     setStep(0)
   }, [])
 
@@ -121,7 +123,7 @@ const SurveyCard = () => {
         <>
           <h2 className="text-3xl font-bold mb-4 text-center">เลือกช่วงอายุ</h2>
           {surveyList.age.map(a => (
-            <CustomButton onClick={() => handleSelect('age', a)}>{a}</CustomButton>
+            <CustomButton onClick={() => handleSelect('ageRanges', a)}>{a}</CustomButton>
           ))}
         </>
       )
@@ -155,6 +157,20 @@ const SurveyCard = () => {
     } else if (step === 5) {
       return (
         <>
+          <h2 className="text-2xl font-semibold mb-4 text-center text-green-700">
+            คุณคิดว่าสิ่งที่คุณเลือกมา ได้มาอยู่บนหน้าจอโทรศัพท์มือถือของคุณ ดีหรือไม่?
+          </h2>
+
+          <div className="flex flex-col gap-2"></div>
+
+          <CustomButton onClick={() => handleSelect('isAgrreed', 'ดี')}>ดี</CustomButton>
+
+          <CustomButton onClick={() => handleSelect('isAgrreed', 'ไม่ดี')}>ไม่ดี</CustomButton>
+        </>
+      )
+    } else if (step === 6) {
+      return (
+        <>
           <h2 className="text-3xl font-bold mb-6 text-center text-green-700">
             ตรวจสอบข้อมูลของคุณ
           </h2>
@@ -166,7 +182,7 @@ const SurveyCard = () => {
             </li>
             <li className="flex justify-between gap-2 bg-gray-50 p-3 rounded-md shadow-sm">
               <span className="font-semibold text-gray-700">อายุ </span>
-              <span className="text-gray-900 text-right">{form.age}</span>
+              <span className="text-gray-900 text-right">{form.ageRanges}</span>
             </li>
             <li className="flex justify-between gap-2 bg-gray-50 p-3 rounded-md shadow-sm">
               <span className="font-semibold text-gray-700">อาชีพ </span>
@@ -180,10 +196,14 @@ const SurveyCard = () => {
               <span className="font-semibold text-gray-700">การกระทำ</span>
               <span className="text-gray-900 text-right">{form.action}</span>
             </li>
+            <li className="flex justify-between gap-2 bg-gray-50 p-3 rounded-md shadow-sm">
+              <span className="font-semibold text-gray-700">ความคิดเห็น</span>
+              <span className="text-gray-900 text-right">{form.isAgrreed}</span>
+            </li>
           </ul>
         </>
       )
-    } else if (step === 6) {
+    } else if (step === 7) {
       return (
         <>
           <h2 className="text-2xl font-semibold mb-4 text-center text-green-700">
@@ -193,13 +213,22 @@ const SurveyCard = () => {
         </>
       )
     }
-  }, [form.action, form.age, form.belief, form.country, form.job, handleSelect, step])
+  }, [
+    form.action,
+    form.ageRanges,
+    form.belief,
+    form.country,
+    form.isAgrreed,
+    form.job,
+    handleSelect,
+    step,
+  ])
 
   return (
     <div className="bg-white border border-orange-200 shadow-md rounded-2xl p-6 max-w-md mx-auto mt-5 transition-all duration-300 hover:shadow-lg">
       {renderStep()}
       <div className="flex justify-between mt-6 gap-2">
-        {step !== 0 && step !== 6 && (
+        {step !== 0 && step !== 7 && (
           <Button
             color="primary"
             className="w-full !text-xl !py-1  !h-auto"
@@ -209,7 +238,7 @@ const SurveyCard = () => {
             กลับ
           </Button>
         )}
-        {step === 5 && (
+        {step === 6 && (
           <Button
             type="primary"
             onClick={handleSubmit}
@@ -218,7 +247,7 @@ const SurveyCard = () => {
             ส่งข้อมูล
           </Button>
         )}
-        {step === 6 && (
+        {step === 7 && (
           <Button
             type="primary"
             onClick={handleReset}
