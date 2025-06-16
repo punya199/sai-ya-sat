@@ -1,9 +1,10 @@
 import { Button, type ButtonProps } from 'antd'
+import axios from 'axios'
 import { useCallback, useState, type ReactNode } from 'react'
 
 type SurveyData = {
   country: string
-  ageRanges: string
+  age: string
   job: string
   belief: string
   action: string
@@ -49,7 +50,7 @@ const SurveyCard = () => {
   const [step, setStep] = useState(0)
   const [form, setForm] = useState<SurveyData>({
     country: '',
-    ageRanges: '',
+    age: '',
     job: '',
     belief: '',
     action: '',
@@ -66,30 +67,31 @@ const SurveyCard = () => {
     setStep(prev => prev - 1)
   }, [])
   const handleSubmit = () => {
-    setForm({ country: '', ageRanges: '', job: '', belief: '', action: '', isAgrreed: true })
+    setForm({ country: '', age: '', job: '', belief: '', action: '', isAgrreed: true })
     setStep(7)
     submitForm()
   }
   const handleReset = useCallback(() => {
-    setForm({ country: '', ageRanges: '', job: '', belief: '', action: '' })
+    setForm({ country: '', age: '', job: '', belief: '', action: '' })
     setStep(0)
   }, [])
 
   const submitForm = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_DOMAIN}/survey/submit`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form),
-      })
+      const { data } = await axios.post(`${import.meta.env.VITE_API_DOMAIN}/survey/submit`, form)
+      // const response = await fetch(`${import.meta.env.VITE_API_DOMAIN}/survey/submit`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(form),
+      // })
 
-      if (!response.ok) {
-        throw new Error('Failed to submit form')
-      }
+      // if (!response.ok) {
+      //   throw new Error('Failed to submit form')
+      // }
 
-      const data = await response.json()
+      // const data = await response.json()
       console.log('Response from server:', data)
     } catch (error) {
       console.error(error)
@@ -123,7 +125,7 @@ const SurveyCard = () => {
         <>
           <h2 className="text-3xl font-bold mb-4 text-center">เลือกช่วงอายุ</h2>
           {surveyList.age.map(a => (
-            <CustomButton onClick={() => handleSelect('ageRanges', a)}>{a}</CustomButton>
+            <CustomButton onClick={() => handleSelect('age', a)}>{a}</CustomButton>
           ))}
         </>
       )
@@ -182,7 +184,7 @@ const SurveyCard = () => {
             </li>
             <li className="flex justify-between gap-2 bg-gray-50 p-3 rounded-md shadow-sm">
               <span className="font-semibold text-gray-700">อายุ </span>
-              <span className="text-gray-900 text-right">{form.ageRanges}</span>
+              <span className="text-gray-900 text-right">{form.age}</span>
             </li>
             <li className="flex justify-between gap-2 bg-gray-50 p-3 rounded-md shadow-sm">
               <span className="font-semibold text-gray-700">อาชีพ </span>
@@ -215,7 +217,7 @@ const SurveyCard = () => {
     }
   }, [
     form.action,
-    form.ageRanges,
+    form.age,
     form.belief,
     form.country,
     form.isAgrreed,
