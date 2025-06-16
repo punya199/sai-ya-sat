@@ -57,7 +57,7 @@ const SurveyCard = () => {
   })
 
   const handleSelect = useCallback(
-    (field: keyof SurveyData, value: string) => {
+    (field: keyof SurveyData, value: string | boolean) => {
       setForm({ ...form, [field]: value })
       setStep(prev => prev + 1)
     },
@@ -165,9 +165,9 @@ const SurveyCard = () => {
 
           <div className="flex flex-col gap-2"></div>
 
-          <CustomButton onClick={() => handleSelect('isAgrreed', 'ดี')}>ดี</CustomButton>
+          <CustomButton onClick={() => handleSelect('isAgrreed', true)}>ดี</CustomButton>
 
-          <CustomButton onClick={() => handleSelect('isAgrreed', 'ไม่ดี')}>ไม่ดี</CustomButton>
+          <CustomButton onClick={() => handleSelect('isAgrreed', false)}>ไม่ดี</CustomButton>
         </>
       )
     } else if (step === 6) {
@@ -200,7 +200,7 @@ const SurveyCard = () => {
             </li>
             <li className="flex justify-between gap-2 bg-gray-50 p-3 rounded-md shadow-sm">
               <span className="font-semibold text-gray-700">ความคิดเห็น</span>
-              <span className="text-gray-900 text-right">{form.isAgrreed}</span>
+              <span className="text-gray-900 text-right">{form.isAgrreed ? 'ดี' : 'ไม่ดี'}</span>
             </li>
           </ul>
         </>
