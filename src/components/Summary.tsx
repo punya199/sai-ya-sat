@@ -1,7 +1,7 @@
 import { get, orderBy, round } from 'lodash'
 import { useMemo } from 'react'
 import type { Data } from '../page/SummaryInformation'
-import { surveyList } from '../page/SurveyCard'
+import { surveyList } from '../page/survey-constants'
 
 type SummaryProps = {
   filteredData: Data[]
