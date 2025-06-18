@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
 import HomePage from './page/HomePage'
-import PageSurvey from './page/PageSurvey'
+import SummaryInformation from './page/SummaryInformation'
 
 const router = createBrowserRouter([
   {
@@ -13,8 +13,8 @@ const router = createBrowserRouter([
     element: <HomePage />,
   },
   {
-    path: '/survey',
-    element: <PageSurvey />,
+    path: '/summary-information',
+    element: <SummaryInformation />,
   },
 ])
 

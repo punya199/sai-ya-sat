@@ -1,6 +1,7 @@
 import { Button, type ButtonProps } from 'antd'
 import axios from 'axios'
 import { useCallback, useState, type ReactNode } from 'react'
+import { v4 } from 'uuid'
 
 type SurveyData = {
   country: string
@@ -8,15 +9,16 @@ type SurveyData = {
   job: string
   belief: string
   action: string
-  isAgrreed?: boolean
+  isAgreed?: boolean
+  uid?: string
 }
 type CustomButtonProps = {
   children: ReactNode
 } & ButtonProps
 
-const surveyList = {
+export const surveyList = {
   country: ['ประเทศไทย'],
-  age: ['10 - 20', '21 - 30', '31 - 40', '41 - 50', '51 - 60', '60 - 70', '71 - 80'],
+  age: ['10 - 20', '21 - 30', '31 - 40', '41 - 50', '51 - 60', '61 - 70', '71 - 80'],
   job: [
     'รับจ้าง',
     'นักศึกษา',
@@ -43,7 +45,18 @@ const surveyList = {
     'ถ่ายรูปแล้วกลับมาโพสต์ในโซเชียลมีเดีย',
     'ขอหวย',
   ],
-  isAgrreed: [],
+  isAgreed: [],
+  agreedText: ['ดี', 'ไม่ดี'],
+}
+
+const getUid = () => {
+  const key = 'UID'
+  const value = localStorage.getItem(key)
+  if (value) return value
+
+  const newValue = v4()
+  localStorage.setItem(key, newValue)
+  return newValue
 }
 
 const SurveyCard = () => {
@@ -67,9 +80,9 @@ const SurveyCard = () => {
     setStep(prev => prev - 1)
   }, [])
   const handleSubmit = () => {
-    setForm({ country: '', age: '', job: '', belief: '', action: '', isAgrreed: true })
-    setStep(7)
     submitForm()
+    setForm({ country: '', age: '', job: '', belief: '', action: '', isAgreed: true })
+    setStep(7)
   }
   const handleReset = useCallback(() => {
     setForm({ country: '', age: '', job: '', belief: '', action: '' })
@@ -77,21 +90,12 @@ const SurveyCard = () => {
   }, [])
 
   const submitForm = async () => {
+    const uid = getUid()
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_API_DOMAIN}/survey/submit`, form)
-      // const response = await fetch(`${import.meta.env.VITE_API_DOMAIN}/survey/submit`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(form),
-      // })
-
-      // if (!response.ok) {
-      //   throw new Error('Failed to submit form')
-      // }
-
-      // const data = await response.json()
+      const { data } = await axios.post(`${import.meta.env.VITE_API_DOMAIN}/survey/submit`, {
+        ...form,
+        uid,
+      })
       console.log('Response from server:', data)
     } catch (error) {
       console.error(error)
@@ -165,9 +169,9 @@ const SurveyCard = () => {
 
           <div className="flex flex-col gap-2"></div>
 
-          <CustomButton onClick={() => handleSelect('isAgrreed', true)}>ดี</CustomButton>
+          <CustomButton onClick={() => handleSelect('isAgreed', true)}>ดี</CustomButton>
 
-          <CustomButton onClick={() => handleSelect('isAgrreed', false)}>ไม่ดี</CustomButton>
+          <CustomButton onClick={() => handleSelect('isAgreed', false)}>ไม่ดี</CustomButton>
         </>
       )
     } else if (step === 6) {
@@ -200,7 +204,7 @@ const SurveyCard = () => {
             </li>
             <li className="flex justify-between gap-2 bg-gray-50 p-3 rounded-md shadow-sm">
               <span className="font-semibold text-gray-700">ความคิดเห็น</span>
-              <span className="text-gray-900 text-right">{form.isAgrreed ? 'ดี' : 'ไม่ดี'}</span>
+              <span className="text-gray-900 text-right">{form.isAgreed ? 'ดี' : 'ไม่ดี'}</span>
             </li>
           </ul>
         </>
@@ -220,14 +224,14 @@ const SurveyCard = () => {
     form.age,
     form.belief,
     form.country,
-    form.isAgrreed,
+    form.isAgreed,
     form.job,
     handleSelect,
     step,
   ])
 
   return (
-    <div className="bg-white border border-orange-200 shadow-md rounded-2xl p-6 max-w-md mx-auto mt-5 transition-all duration-300 hover:shadow-lg">
+    <div className="bg-white border border-orange-200 shadow-md rounded-2xl p-6 max-w-md mx-auto mt-2 transition-all duration-300 hover:shadow-lg">
       {renderStep()}
       <div className="flex justify-between mt-6 gap-2">
         {step !== 0 && step !== 7 && (
