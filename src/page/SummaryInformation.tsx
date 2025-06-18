@@ -3,7 +3,8 @@ import axios from 'axios'
 import { orderBy } from 'lodash'
 import { useEffect, useMemo, useState } from 'react'
 import Summary from '../components/Summary'
-import { surveyList } from './SurveyCard'
+import { appConfig } from '../config/app-config'
+import { surveyList } from './survey-constants'
 
 export type Data = {
   id: number
@@ -22,7 +23,7 @@ const SummaryInformation = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get<Data[]>(`${import.meta.env.VITE_API_DOMAIN}/survey`) // ← แก้ URL ที่นี่
+      const { data } = await axios.get<Data[]>(`${appConfig().VITE_API_DOMAIN}/survey`) // ← แก้ URL ที่นี่
       setSurveyData(
         data.map(e => {
           e.agreedText = e.isAgreed ? 'ดี' : 'ไม่ดี'

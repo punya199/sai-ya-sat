@@ -2,6 +2,8 @@ import { Button, type ButtonProps } from 'antd'
 import axios from 'axios'
 import { useCallback, useState, type ReactNode } from 'react'
 import { v4 } from 'uuid'
+import { appConfig } from '../config/app-config'
+import { surveyList } from './survey-constants'
 
 type SurveyData = {
   country: string
@@ -15,39 +17,6 @@ type SurveyData = {
 type CustomButtonProps = {
   children: ReactNode
 } & ButtonProps
-
-export const surveyList = {
-  country: ['ประเทศไทย'],
-  age: ['10 - 20', '21 - 30', '31 - 40', '41 - 50', '51 - 60', '61 - 70', '71 - 80'],
-  job: [
-    'รับจ้าง',
-    'นักศึกษา',
-    'พนักงานบริษัท',
-    'เจ้าของธุรกิจ/ค้าขาย',
-    'เกษตรกร',
-    'รับราชการ',
-    'ผู้เกษียณอายุ',
-    'อื่นๆ',
-  ],
-  belief: [
-    'วัด',
-    'คริสตจักร',
-    'พระพุธรูป',
-    'สถานที่ศักดิ์สิทธิ์',
-    'สิ่งศักดิ์สิทธิ์',
-    'พระ(นักบวช)',
-    'ไม่มีความเชื่อ',
-  ],
-  action: [
-    'ไหว้ อธิษฐาน ขอพร',
-    'บริจาคเงิน',
-    'เสี่ยงทายดวงชะตาและการพยากรณ์อนาคต',
-    'ถ่ายรูปแล้วกลับมาโพสต์ในโซเชียลมีเดีย',
-    'ขอหวย',
-  ],
-  isAgreed: [],
-  agreedText: ['ดี', 'ไม่ดี'],
-}
 
 const getUid = () => {
   const key = 'UID'
@@ -92,11 +61,11 @@ const SurveyCard = () => {
   const submitForm = async () => {
     const uid = getUid()
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_API_DOMAIN}/survey/submit`, {
+      const { data } = await axios.post(`${appConfig().VITE_API_DOMAIN}/survey/submit`, {
         ...form,
         uid,
       })
-      console.log('Response from server:', data)
+      console.debug('Response from server:', data)
     } catch (error) {
       console.error(error)
     }
