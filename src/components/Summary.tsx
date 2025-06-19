@@ -1,4 +1,4 @@
-import { get, orderBy, round } from 'lodash'
+import { get, orderBy, round } from 'lodash-es'
 import { useMemo } from 'react'
 import type { Data } from '../page/SummaryInformation'
 import { surveyList } from '../page/survey-constants'

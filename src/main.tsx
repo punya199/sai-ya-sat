@@ -1,20 +1,31 @@
 // src/main.tsx
 import { ConfigProvider, theme } from 'antd'
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { LoadingSpinner } from './components/LoadingSpinner'
 import './index.css'
-import HomePage from './page/HomePage'
-import SummaryInformation from './page/SummaryInformation'
+
+// Lazy load components for code splitting
+const HomePage = React.lazy(() => import('./page/HomePage'))
+const SummaryInformation = React.lazy(() => import('./page/SummaryInformation'))
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />,
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <HomePage />
+      </Suspense>
+    ),
   },
   {
     path: '/summary-information',
-    element: <SummaryInformation />,
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <SummaryInformation />
+      </Suspense>
+    ),
   },
 ])
 

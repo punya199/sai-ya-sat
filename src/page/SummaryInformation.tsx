@@ -1,6 +1,6 @@
 import { Button } from 'antd'
 import axios from 'axios'
-import { orderBy } from 'lodash'
+import { orderBy } from 'lodash-es'
 import { useEffect, useMemo, useState } from 'react'
 import Summary from '../components/Summary'
 import { appConfig } from '../config/app-config'
