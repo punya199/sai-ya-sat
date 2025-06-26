@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/punya199/sai-ya-sat/compare/v1.0.0...v1.0.1) (2025-06-26)
+
+
+### Fix
+
+* edit github action ([a21be3d](https://github.com/punya199/sai-ya-sat/commit/a21be3d71705681eea5af4f12f3fff09017df571))
+
 # 1.0.0 (2025-06-26)
 
 
