@@ -45,3 +45,5 @@ firebase-debug.*.log
 
 
 public/config/env-config.js
+
+VERSION
