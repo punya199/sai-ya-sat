@@ -1,7 +1,9 @@
+import { useQuery } from '@tanstack/react-query'
 import { Button } from 'antd'
 import axios from 'axios'
 import { orderBy } from 'lodash-es'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
+import { FadeText } from '../components/FadeText'
 import Summary from '../components/Summary'
 import { appConfig } from '../config/app-config'
 import { surveyList } from './survey-constants'
@@ -18,21 +20,19 @@ export type Data = {
 }
 
 const SummaryInformation = () => {
-  const [surveyData, setSurveyData] = useState<Data[]>([])
-  const [selectedAge, setSelectedAge] = useState<string | null>(null)
+  const { data: surveyData = [] } = useQuery({
+    queryKey: ['survey'],
+    queryFn: async () => {
+      const { data } = await axios.get<Data[]>(`${appConfig().VITE_API_DOMAIN}/survey`)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await axios.get<Data[]>(`${appConfig().VITE_API_DOMAIN}/survey`) // ← แก้ URL ที่นี่
-      setSurveyData(
-        data.map(e => {
-          e.agreedText = e.isAgreed ? 'ดี' : 'ไม่ดี'
-          return e
-        })
-      )
-    }
-    fetchData()
-  }, [])
+      return data.map(e => {
+        e.agreedText = e.isAgreed ? 'ดี' : 'ไม่ดี'
+        return e
+      })
+    },
+    refetchInterval: 5_000,
+  })
+  const [selectedAge, setSelectedAge] = useState<string | null>(null)
 
   const handleClickAge = (age: string) => {
     setSelectedAge(age)
@@ -68,8 +68,10 @@ const SummaryInformation = () => {
           type={selectedAge === 'all' ? 'primary' : 'default'}
           onClick={() => handleClickAllAge()}
         >
-          {' '}
-          ทั้งหมด : {surveyData.length}
+          <span>ทั้งหมด :</span>
+          <span className="ml-1">
+            <FadeText>{surveyData.length}</FadeText>
+          </span>
         </Button>
         {orderBy(Object.entries(ageSummary), ['0'], ['asc']).map(([range, count]) => (
           <Button
@@ -77,7 +79,10 @@ const SummaryInformation = () => {
             type={selectedAge === range ? 'primary' : 'default'}
             onClick={() => handleClickAge(range)}
           >
-            {range} : {count}
+            <span>{range}</span> :{' '}
+            <span className="ml-1">
+              <FadeText>{count}</FadeText>
+            </span>
           </Button>
         ))}
       </div>

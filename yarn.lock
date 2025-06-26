@@ -1752,6 +1752,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:5.81.2":
+  version: 5.81.2
+  resolution: "@tanstack/query-core@npm:5.81.2"
+  checksum: 10c0/36a6bddec2e7512015bcfbb0d7b0876fab418de9e0ef21ad403598276960e0b7d53efd62832ce462738ad22d9883e31cb5403eafc65dfd9b2f6744c22a9d8e42
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.81.2":
+  version: 5.81.2
+  resolution: "@tanstack/react-query@npm:5.81.2"
+  dependencies:
+    "@tanstack/query-core": "npm:5.81.2"
+  peerDependencies:
+    react: ^18 || ^19
+  checksum: 10c0/a80a2e7401a02bfc8d7a926c9e48b0a108cae21a2c47691632e754de44ca08838c105fb0c30804f4ccbf173bee04ad9a3e45a8bebdfc1d1a32468bbb9d960e19
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:2":
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
@@ -4925,6 +4943,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"framer-motion@npm:^12.19.1":
+  version: 12.19.1
+  resolution: "framer-motion@npm:12.19.1"
+  dependencies:
+    motion-dom: "npm:^12.19.0"
+    motion-utils: "npm:^12.19.0"
+    tslib: "npm:^2.4.0"
+  peerDependencies:
+    "@emotion/is-prop-valid": "*"
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 10c0/e3abc8c04c4d69452b4dadf9eeffdc4a252330730c5ff530616d265925b9a34d636992b1ec26191d60ab76a704d437de4c73dcec217f1ae0326adc005edc659f
+  languageName: node
+  linkType: hard
+
 "fresh@npm:0.5.2":
   version: 0.5.2
   resolution: "fresh@npm:0.5.2"
@@ -7127,6 +7167,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"motion-dom@npm:^12.19.0":
+  version: 12.19.0
+  resolution: "motion-dom@npm:12.19.0"
+  dependencies:
+    motion-utils: "npm:^12.19.0"
+  checksum: 10c0/16fef072441924800c488d2a7dd2443730a77c15957c2e02cefb9fb21d25cf1c4ad1f822e642e7d13e8f48812a0590ccb3b54a278478b9185e8f80ed18263ae2
+  languageName: node
+  linkType: hard
+
+"motion-utils@npm:^12.19.0":
+  version: 12.19.0
+  resolution: "motion-utils@npm:12.19.0"
+  checksum: 10c0/e9526e0135c5f596b2d9a242edbd5b5268922b6001d1b9fb63f2fb4b11f891ac63a186eef8dbd80a4011692d70897aa0c6d4d161fcaaaef3dd4ca7aea6263226
+  languageName: node
+  linkType: hard
+
 "ms@npm:2.0.0":
   version: 2.0.0
   resolution: "ms@npm:2.0.0"
@@ -7161,6 +7217,7 @@ __metadata:
   dependencies:
     "@eslint/js": "npm:^9.25.0"
     "@tailwindcss/vite": "npm:^4.1.8"
+    "@tanstack/react-query": "npm:^5.81.2"
     "@types/lodash-es": "npm:^4"
     "@types/react": "npm:^19.1.2"
     "@types/react-dom": "npm:^19.1.2"
@@ -7176,6 +7233,7 @@ __metadata:
     eslint-plugin-react-refresh: "npm:^0.4.20"
     eslint-plugin-unused-imports: "npm:^4.1.4"
     firebase-tools: "npm:^14.6.0"
+    framer-motion: "npm:^12.19.1"
     globals: "npm:^16.0.0"
     husky: "npm:^9.1.7"
     lint-staged: "npm:^16.1.0"
