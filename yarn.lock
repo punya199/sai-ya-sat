@@ -4140,6 +4140,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"conventional-changelog-eslint@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "conventional-changelog-eslint@npm:6.0.0"
+  checksum: 10c0/ed7d8d10e518ae5bced2b7f8e940db63554f9a92967997ca44c24ae9e6ed60ec9880f6911b806f5a98e25b95dba58af079b5116945ffe05cb55a4b052915b8c1
+  languageName: node
+  linkType: hard
+
 "conventional-changelog-writer@npm:^8.0.0":
   version: 8.1.0
   resolution: "conventional-changelog-writer@npm:8.1.0"
@@ -8741,6 +8748,7 @@ __metadata:
     antd: "npm:^5.26.0"
     autoprefixer: "npm:^10.4.21"
     axios: "npm:^1.10.0"
+    conventional-changelog-eslint: "npm:^6.0.0"
     eslint: "npm:^9.28.0"
     eslint-config-prettier: "npm:^10.1.5"
     eslint-plugin-prettier: "npm:^5.4.1"
